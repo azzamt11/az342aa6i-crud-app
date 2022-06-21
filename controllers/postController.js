@@ -4,8 +4,8 @@ const jwt= require('jsonwebtoken');
 
 //create post function
 const createPost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email}); 
@@ -29,8 +29,8 @@ const createPost= async(req, res)=> {
 
 //get posts function
 const getPosts= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -47,8 +47,8 @@ const getPosts= async(req, res)=> {
 
 //get post by attribute function
 const getPostByAttribute= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -65,8 +65,8 @@ const getPostByAttribute= async(req, res)=> {
 
 //get post by id function
 const getPostById= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -83,8 +83,8 @@ const getPostById= async(req, res)=> {
 
 //update post function
 const updatePost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  
@@ -108,8 +108,8 @@ const updatePost= async(req, res)=> {
 
 //delete post function
 const deletePost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  

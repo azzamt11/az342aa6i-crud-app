@@ -41,9 +41,8 @@ const login= async(req, res)=> {
 
 //user function
 const user= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try {
-        console.log(req.headers['authorization'].split(' ')[1]);
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});

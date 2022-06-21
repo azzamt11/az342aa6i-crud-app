@@ -4,8 +4,8 @@ const jwt= require('jsonwebtoken');
 
 //create subpost function
 const createSubPost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email}); 
@@ -30,8 +30,8 @@ const createSubPost= async(req, res)=> {
 
 //get subposts function
 const getSubPosts= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -48,8 +48,8 @@ const getSubPosts= async(req, res)=> {
 
 //get subpost by attribute function
 const getSubPostByAttribute= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -66,8 +66,8 @@ const getSubPostByAttribute= async(req, res)=> {
 
 //get subpost by id function
 const getSubPostById= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
@@ -84,8 +84,8 @@ const getSubPostById= async(req, res)=> {
 
 //update subpost function
 const updateSubPost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  
@@ -110,8 +110,8 @@ const updateSubPost= async(req, res)=> {
 
 //delete subpost function
 const deleteSubPost= async(req, res)=> {
-    const token= req.headers['authorization'].split(' ')[1];
     try{
+        const token= req.headers['authorization'].split(' ')[1];
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  
