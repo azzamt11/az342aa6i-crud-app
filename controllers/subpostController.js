@@ -1,24 +1,25 @@
-const Post= require('../models/postModel');
+const SubPost= require('../models/subpostModel');
 const User= require('../models/userModel');
 const jwt= require('jsonwebtoken');
 
-//create post function
-const createPost= async(req, res)=> {
+//create subpost function
+const createSubPost= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email}); 
         if (user) {
-            const post= await Post.create({
-                post_body: req.body.post_body,
-                post_type: req.body.post_type,
-                post_user: user.name,
-                post_attribute_1: 0,
-                post_attribute_2: req.body.post_attribute,
-                post_attribute_3: null,
+            const subpost= await SubPost.create({
+                subpost_body: req.body.subpost_body,
+                subpost_type: req.body.subpost_type,
+                subpost_user: user.name,
+                subpost_parent: req.params.pid,
+                subpost_attribute_1: 0,
+                subpost_attribute_2: req.body.subpost_attribute,
+                subpost_attribute_3: null,
             });
-            res.json({status: 'ok', message: 'post created', post:post});
+            res.json({status: 'ok', message: 'subpost created', subpost:subpost});
         } else {
             res.json({status: 'unathenticated'});
         }
@@ -27,16 +28,16 @@ const createPost= async(req, res)=> {
     }
 }
 
-//get posts function
-const getPosts= async(req, res)=> {
+//get subposts function
+const getSubPosts= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
         if (user) {
-            const post= await Post.find({post_type: 0});
-            res.json({status: 'ok', post:post});
+            const subpost= await SubPost.find({subpost_type: 0, subpost_parent: req.params.pid});
+            res.json({status: 'ok', subpost:subpost});
         } else {
             res.json({status: 'unauthenticated'});
         }
@@ -45,16 +46,16 @@ const getPosts= async(req, res)=> {
     }
 }
 
-//get post by attribute function
-const getPostByAttribute= async(req, res)=> {
+//get subpost by attribute function
+const getSubPostByAttribute= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
         if (user) {
-            const post= await Post.find({post_type: 0, post_attribute_2: req.params.att});
-            res.json({status: 'ok', post:post}); 
+            const subpost= await SubPost.find({subpost_type: 0, subpost_attribute_2: req.params.att});
+            res.json({status: 'ok', subpost:subpost}); 
         } else {
             res.json({status: 'unauthenticated'});
         }
@@ -63,16 +64,16 @@ const getPostByAttribute= async(req, res)=> {
     }
 }
 
-//get post by id function
-const getPostById= async(req, res)=> {
+//get subpost by id function
+const getSubPostById= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});
         if (user) {
-            const post= await Post.find({post_type: 0, id: req.params.id});
-            res.json({status: 'ok', post:post}); 
+            const subpost= await SubPost.find({subpost_type: 0, id: req.params.id, subpost_parent: req.params.pid,});
+            res.json({status: 'ok', subpost:subpost}); 
         } else {
             res.json({status: 'unauthenticated'});
         }
@@ -81,23 +82,24 @@ const getPostById= async(req, res)=> {
     }
 }
 
-//update post function
-const updatePost= async(req, res)=> {
+//update subpost function
+const updateSubPost= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  
         if (user) {
-            const post= await Post.findOne({post_type: 0, id: req.params.id, post_user: user.name}).update({
-                post_body: req.body.post_body,
-                post_type: req.body.post_type,
-                post_user: user.name,
-                post_attribute_1: 0,
-                post_attribute_2: req.body.post_attribute,
-                post_attribute_3: null,
+            const subpost= await SubPost.findOne({subpost_type: 0, id: req.params.id, subpost_user: user.name, subpost_parent: req.params.pid,}).update({
+                subpost_body: req.body.subpost_body,
+                subpost_type: req.body.subpost_type,
+                subpost_user: user.name,
+                subpost_parent: req.params.pid,
+                subpost_attribute_1: 0,
+                subpost_attribute_2: req.body.subpost_attribute,
+                subpost_attribute_3: null,
             });
-            res.json({status: 'ok', message: 'post updated', post:post});
+            res.json({status: 'ok', message: 'subpost updated', subpost:subpost});
         } else {
             res.json({status: 'unauthenticated'});
         }
@@ -106,16 +108,17 @@ const updatePost= async(req, res)=> {
     }
 }
 
-//delete post function
-const deletePost= async(req, res)=> {
+//delete subpost function
+const deleteSubPost= async(req, res)=> {
     const token= req.headers['authorization'].split(' ')[1];
     try{
         const decoded= jwt.verify(token, 'secret123')
         const email= decoded.email;
         const user= await User.findOne({email:email});  
         if (user) {
-            const post= await (await Post.findOne({post_type: 0, id: req.params.id, post_user: user.name})).delete();
-            res.json({status: 'ok', message: 'post deleted'});
+            const subpost= await (await SubPost.findOne({subpost_type: 0, id: req.params.id, subpost_user: user.name, subpost_parent: req.params.pid,}));
+            subpost.delete();
+            res.json({status: 'ok', message: 'subpost deleted'});
         } else {
             res.json({status: 'unauthenticated'});
         }
@@ -124,4 +127,4 @@ const deletePost= async(req, res)=> {
     }
 }
 
-module.exports= {createPost, getPosts, getPostByAttribute, getPostById, updatePost, deletePost};
+module.exports= {createSubPost, getSubPosts, getSubPostByAttribute, getSubPostById, updateSubPost, deleteSubPost};

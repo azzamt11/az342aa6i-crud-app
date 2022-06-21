@@ -4,6 +4,9 @@ const cors= require('cors');
 const mongoose= require('mongoose');
 const User= require('./models/userModel');
 const api= require('./api.js');
+const dotenv= require('dotenv');
+
+dotenv.config();
 
 app.use(cors());
 app.use(express.json());
